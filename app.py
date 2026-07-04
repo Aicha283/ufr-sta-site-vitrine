@@ -129,6 +129,53 @@ def admin_actualite_supprimer(id):
     db.session.delete(actu)
     db.session.commit()
     return redirect(url_for('admin_actualites'))
+# ===== CRUD ACTIVITÉS =====
+@app.route('/admin/activites')
+@login_required
+def admin_activites():
+    activites = Activite.query.order_by(Activite.date.desc()).all()
+    return render_template('admin/activites.html', activites=activites)
+
+@app.route('/admin/activites/ajouter', methods=['GET', 'POST'])
+@login_required
+def admin_activite_ajouter():
+    if request.method == 'POST':
+        from datetime import datetime
+        nouvelle = Activite(
+            titre=request.form['titre'],
+            date=datetime.strptime(request.form['date'], '%Y-%m-%d').date(),
+            lieu=request.form['lieu'],
+            organisateur=request.form['organisateur'],
+            description=request.form['description']
+        )
+        db.session.add(nouvelle)
+        db.session.commit()
+        return redirect(url_for('admin_activites'))
+    return render_template('admin/activite_form.html', titre_page="Ajouter une activité", activite=None)
+
+@app.route('/admin/activites/modifier/<int:id>', methods=['GET', 'POST'])
+@login_required
+def admin_activite_modifier(id):
+    activite = Activite.query.get_or_404(id)
+    if request.method == 'POST':
+        from datetime import datetime
+        activite.titre = request.form['titre']
+        activite.date = datetime.strptime(request.form['date'], '%Y-%m-%d').date()
+        activite.lieu = request.form['lieu']
+        activite.organisateur = request.form['organisateur']
+        activite.description = request.form['description']
+        db.session.commit()
+        return redirect(url_for('admin_activites'))
+    return render_template('admin/activite_form.html', titre_page="Modifier une activité", activite=activite)
+
+@app.route('/admin/activites/supprimer/<int:id>')
+@login_required
+def admin_activite_supprimer(id):
+    activite = Activite.query.get_or_404(id)
+    db.session.delete(activite)
+    db.session.commit()
+    return redirect(url_for('admin_activites'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

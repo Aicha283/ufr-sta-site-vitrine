@@ -1,0 +1,32 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<section>
+    <h2>{{ titre_page }}</h2>
+
+    <form method="POST">
+        <div>
+            <label>Titre</label>
+            <input type="text" name="titre" value="{{ activite.titre if activite else '' }}" required>
+        </div>
+        <div>
+            <label>Date</label>
+            <input type="date" name="date" value="{{ activite.date if activite else '' }}" required>
+        </div>
+        <div>
+            <label>Lieu</label>
+            <input type="text" name="lieu" value="{{ activite.lieu if activite else '' }}">
+        </div>
+        <div>
+            <label>Organisateur</label>
+            <input type="text" name="organisateur" value="{{ activite.organisateur if activite else '' }}">
+        </div>
+        <div>
+            <label>Description</label>
+            <textarea name="description">{{ activite.description if activite else '' }}</textarea>
+        </div>
+        <button type="submit">Enregistrer</button>
+        <a href="{{ url_for('admin_activites') }}">Annuler</a>
+    </form>
+</section>
+{% endblock %}
