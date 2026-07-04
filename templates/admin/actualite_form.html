@@ -1,0 +1,24 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+<section>
+    <h2>{{ titre_page }}</h2>
+
+    <form method="POST">
+        <div>
+            <label>Titre</label>
+            <input type="text" name="titre" value="{{ actu.titre if actu else '' }}" required>
+        </div>
+        <div>
+            <label>Date</label>
+            <input type="date" name="date" value="{{ actu.date if actu else '' }}" required>
+        </div>
+        <div>
+            <label>Description</label>
+            <textarea name="description">{{ actu.description if actu else '' }}</textarea>
+        </div>
+        <button type="submit">Enregistrer</button>
+        <a href="{{ url_for('admin_actualites') }}">Annuler</a>
+    </form>
+</section>
+{% endblock %}

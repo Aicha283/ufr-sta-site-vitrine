@@ -117,13 +117,13 @@ with app.app_context():
         titre="Ouverture des inscriptions 2026-2027",
         date=date(2026, 7, 1),
         description="Les inscriptions pour l'année académique 2026-2027 sont ouvertes.",
-        photo="default.jpg"
+        photo="default1.jpg"
     ))
     db.session.add(Actualite(
         titre="Soutenance de thèse — Dr.DIENG",
         date=date(2026, 6, 15),
         description="Soutenance de thèse de doctorat en informatique.",
-        photo="default.jpg"
+        photo="default2.jpg"
     ))
     db.session.commit()
 

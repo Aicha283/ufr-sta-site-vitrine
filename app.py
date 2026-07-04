@@ -87,6 +87,48 @@ def admin_logout():
 @login_required
 def admin_dashboard():
     return render_template('admin/dashboard.html')
+# ===== CRUD ACTUALITÉS =====
+@app.route('/admin/actualites')
+@login_required
+def admin_actualites():
+    actualites = Actualite.query.order_by(Actualite.date.desc()).all()
+    return render_template('admin/actualites.html', actualites=actualites)
+
+@app.route('/admin/actualites/ajouter', methods=['GET', 'POST'])
+@login_required
+def admin_actualite_ajouter():
+    if request.method == 'POST':
+        from datetime import datetime
+        nouvelle = Actualite(
+            titre=request.form['titre'],
+            date=datetime.strptime(request.form['date'], '%Y-%m-%d').date(),
+            description=request.form['description']
+        )
+        db.session.add(nouvelle)
+        db.session.commit()
+        return redirect(url_for('admin_actualites'))
+    return render_template('admin/actualite_form.html', titre_page="Ajouter une actualité", actu=None)
+
+@app.route('/admin/actualites/modifier/<int:id>', methods=['GET', 'POST'])
+@login_required
+def admin_actualite_modifier(id):
+    actu = Actualite.query.get_or_404(id)
+    if request.method == 'POST':
+        from datetime import datetime
+        actu.titre = request.form['titre']
+        actu.date = datetime.strptime(request.form['date'], '%Y-%m-%d').date()
+        actu.description = request.form['description']
+        db.session.commit()
+        return redirect(url_for('admin_actualites'))
+    return render_template('admin/actualite_form.html', titre_page="Modifier une actualité", actu=actu)
+
+@app.route('/admin/actualites/supprimer/<int:id>')
+@login_required
+def admin_actualite_supprimer(id):
+    actu = Actualite.query.get_or_404(id)
+    db.session.delete(actu)
+    db.session.commit()
+    return redirect(url_for('admin_actualites'))
 
 if __name__ == '__main__':
     app.run(debug=True)
