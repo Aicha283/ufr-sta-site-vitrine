@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}UFR STA - UAM{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-area">
+                <img src="../images/photo1logo.jpeg" alt="Logo UFR STA" class="logo">
+                <div class="logo-text">
+                    <span class="ufr-name">UFR STA</span>
+                    <span class="univ-name">Université Amadou Mahtar MBOW</span>
+                </div>
+            </div>
+            <nav class="main-nav" id="mainNav">
+                <a href="{{ url_for('index') }}" class="nav-link">Accueil</a>
+                <a href="{{ url_for('departements') }}" class="nav-link">Départements</a>
+                <a href="{{ url_for('formations') }}" class="nav-link">Formations</a>
+                <a href="{{ url_for('actualites') }}" class="nav-link">Actualités</a>
+                <a href="{{ url_for('enseignants') }}" class="nav-link">Enseignants</a>
+                <a href="{{ url_for('contact') }}" class="nav-link nav-btn">Contact</a>
+            </nav>
+            <button class="burger-menu" aria-label="Ouvrir le menu" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>UFR STA</h3>
+                <p>Sciences et Technologies Avancées</p>
+                <p>UAM - Diamniadio, Sénégal</p>
+            </div>
+            <div class="footer-links">
+                <h4>Liens utiles</h4>
+                <ul>
+                    <li><a href="{{ url_for('actualites') }}">Actualités</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                    <li><a href="#">Administration</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 UFR STA - UAM. Projet Web L3 Informatique. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('mainNav').classList.toggle('active');
+            document.querySelector('.burger-menu').classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
