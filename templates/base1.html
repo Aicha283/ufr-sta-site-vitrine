@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFR STA</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <h1>UFR STA</h1>
+            <p>Université Amadou mactar mbow</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Accueil</a></li>
+                <li><a href="{{ url_for('departements') }}">Départements</a></li>
+                <li><a href="{{ url_for('formations') }}">Formations</a></li>
+                <li><a href="{{ url_for('actualites') }}">Actualités</a></li>
+                <li><a href="{{ url_for('activites') }}">Activités</a></li>
+                <li><a href="{{ url_for('enseignants') }}">Enseignants</a></li>
+                <li><a href="{{ url_for('galerie') }}">Galerie</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- CONTENU PRINCIPAL -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 UFR STA — Tous droits réservés</p>
+    </footer>
+
+</body>
+</html>

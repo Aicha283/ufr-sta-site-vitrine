@@ -1,0 +1,49 @@
+{% extends 'base1.html' %}
+
+{% block content %}
+
+<!-- BANNIÈRE -->
+<section class="banniere">
+    <h2>Bienvenue à l'UFR STA</h2>
+    <p>Unité de Formation et de Recherche des tecnologie avancee</p>
+</section>
+
+<!-- MOT DU DIRECTEUR -->
+<section class="mot-directeur">
+    <h2>Mot du Directeur</h2>
+    <p>
+        Bienvenue sur le site officiel de l'UFR STA. 
+        Notre UFR s'engage à former des étudiants compétents 
+        et à promouvoir la recherche scientifique au service 
+        du développement national.
+    </p>
+    <p><strong>— Dr. Coulibaly , Directeur de l'UFR STA</strong></p>
+</section>
+
+<!-- PRÉSENTATION GÉNÉRALE -->
+<section class="presentation">
+    <h2>Présentation de l'UFR</h2>
+    <p>
+        L'UFR STA est une composante de l'Université Anta Amadou Mactar Mbow (UAM). 
+        Elle regroupe plusieurs départements couvrant l'Informatique, 
+        les Mathématiques et la Physique.
+    </p>
+</section>
+
+<!-- DERNIÈRES ACTUALITÉS -->
+<section class="dernieres-actualites">
+    <h2>Dernières Actualités</h2>
+    {% if actualites %}
+        {% for actu in actualites %}
+        <div class="carte-actualite">
+            <h3>{{ actu.titre }}</h3>
+            <p class="date">{{ actu.date }}</p>
+            <p>{{ actu.description }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Aucune actualité pour le moment.</p>
+    {% endif %}
+</section>
+
+{% endblock %}

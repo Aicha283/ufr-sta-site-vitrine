@@ -1,7 +1,10 @@
 from app import app
-from models import db, Departement, Formation, Module, Actualite, Activite, Enseignant, Album, Photo
-
+from models import db, Departement, Formation, Module, Actualite, Activite, Enseignant, Album, Photo ,Admin
+from werkzeug.security import generate_password_hash
 with app.app_context():
+
+    # ===== ADMIN =====
+
 
     # ===== DÉPARTEMENTS =====
     dept_info = Departement(
@@ -9,19 +12,19 @@ with app.app_context():
         description="Département dédié aux sciences informatiques",
         responsable="Dr.Amadou Dahirou gueye",
         contact="info@ufr-sta.edu"
-    )
+)
     dept_math = Departement(
         nom="Département Mathématiques",
         description="Département des mathématiques pures et appliquées",
         responsable="Dr. thierno Sow",
         contact="math@ufr-sta.edu"
-    )
+)
     dept_phy = Departement(
         nom="Département physique",
         description="Département de physique pures et appliquées",
         responsable="Dr. Makha Ndaow",
         contact="phy@ufr-sta.edu"
-    )
+)
     db.session.add(dept_info)
     db.session.add(dept_math)
     db.session.add(dept_phy)
@@ -117,7 +120,7 @@ with app.app_context():
         photo="default.jpg"
     ))
     db.session.add(Actualite(
-        titre="Soutenance de thèse — Dr. DIENG",
+        titre="Soutenance de thèse — Dr.DIENG",
         date=date(2026, 6, 15),
         description="Soutenance de thèse de doctorat en informatique.",
         photo="default.jpg"
@@ -188,4 +191,12 @@ with app.app_context():
     db.session.add(Photo(chemin="photo2.jpg", album_id=album.id))
     db.session.commit()
 
+
+
+
     print("✅ Données de test insérées avec succès !")
+
+
+    
+
+
