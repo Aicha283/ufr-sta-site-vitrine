@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact - UFR STA{% endblock %}
+
+{% block content %}
+<section class="page-title">
+    <h1>Contactez l'Administration</h1>
+    <p>Une question ? Un renseignement ? Écrivez-nous directement.</p>
+</section>
+
+<section class="container max-width-md">
+    <div class="card form-card">
+        <form action="#" method="POST" class="styled-form">
+            <div class="form-group">
+                <label for="nom">Nom complet</label>
+                <input type="text" id="nom" name="nom" required placeholder="Ex: Fatou Diop">
+            </div>
+            <div class="form-group">
+                <label for="email">Adresse Email</label>
+                <input type="email" id="email" name="email" required placeholder="Ex: fatou@example.com">
+            </div>
+            <div class="form-group">
+                <label for="sujet">Sujet</label>
+                <input type="text" id="sujet" name="sujet" required placeholder="Ex: Demande d'inscription">
+            </div>
+            <div class="form-group">
+                <label for="message">Votre message</label>
+                <textarea id="message" name="message" rows="6" required placeholder="Écrivez votre message ici..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Envoyer le message</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
