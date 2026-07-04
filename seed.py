@@ -7,17 +7,24 @@ with app.app_context():
     dept_info = Departement(
         nom="Département Informatique",
         description="Département dédié aux sciences informatiques",
-        responsable="Dr. Moussa Diallo",
+        responsable="Dr.Amadou Dahirou gueye",
         contact="info@ufr-sta.edu"
     )
     dept_math = Departement(
         nom="Département Mathématiques",
         description="Département des mathématiques pures et appliquées",
-        responsable="Dr. Aminata Sow",
+        responsable="Dr. thierno Sow",
         contact="math@ufr-sta.edu"
+    )
+    dept_phy = Departement(
+        nom="Département physique",
+        description="Département de physique pures et appliquées",
+        responsable="Dr. Makha Ndaow",
+        contact="phy@ufr-sta.edu"
     )
     db.session.add(dept_info)
     db.session.add(dept_math)
+    db.session.add(dept_phy)
     db.session.commit()
 
     # ===== FORMATIONS =====
@@ -26,7 +33,7 @@ with app.app_context():
         niveau="Licence",
         duree="3 ans",
         conditions_admission="Baccalauréat série S ou équivalent",
-        debouches="Développeur, Technicien réseau, Analyste",
+        debouches="Développeur, Technicien réseau, Analyste , ingenieur en iot",
         departement_id=dept_info.id
     )
     master_info = Formation(
