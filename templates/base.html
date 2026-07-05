@@ -13,18 +13,18 @@
     <header class="main-header">
         <div class="header-container">
             <div class="logo-area">
-                <img src="../images/photo1logo.jpeg" alt="Logo UFR STA" class="logo">
+                <img src="{{ url_for('static', filename='images/photo1logo.jpeg')}}" alt="Logo UFR STA" class="logo">
                 <div class="logo-text">
                     <span class="ufr-name">UFR STA</span>
                     <span class="univ-name">Université Amadou Mahtar MBOW</span>
                 </div>
             </div>
             <nav class="main-nav" id="mainNav">
-                <a href="{{ url_for('index') }}" class="nav-link">Accueil</a>
+                <a href="{{ url_for('home') }}" class="nav-link">Accueil</a>
                 <a href="{{ url_for('departements') }}" class="nav-link">Départements</a>
                 <a href="{{ url_for('formations') }}" class="nav-link">Formations</a>
                 <a href="{{ url_for('actualites') }}" class="nav-link">Actualités</a>
-                <a href="{{ url_for('enseignants') }}" class="nav-link">Enseignants</a>
+                <a href="{{ url_for('galerie') }}" class="nav-link">Galerie</a>
                 <a href="{{ url_for('contact') }}" class="nav-link nav-btn">Contact</a>
             </nav>
             <button class="burger-menu" aria-label="Ouvrir le menu" onclick="toggleMenu()">

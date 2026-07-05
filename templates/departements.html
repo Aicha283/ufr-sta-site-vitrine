@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Départements - UFR STA{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Nos Départements</h1>
+    <p>Découvrez les pôles d'enseignement et de recherche constituant notre UFR.</p>
+</section>
+
+<div class="grid-3">
+    {% for dept in departements %}
+    <article class="card">
+        <div class="card-content">
+            <h2 class="card-title">{{ dept.nom }}</h2>
+            <p><strong>Responsable :</strong> {{ dept.responsable }}</p>
+            <p>{{ dept.description }}</p>
+            
+            <div class="dept-stats">
+                <span>📚 {{ dept.formations|length }} Formations</span> | 
+                <span>👨‍🏫 {{ dept.enseignants|length }} Enseignants</span>
+            </div>
+            
+            <p class="dept-contact">📧 Contact : {{ dept.contact }}</p>
+            <a href="{{ url_for('formations') }}?departement={{ dept.id }}" class="btn btn-block">Voir le catalogue</a>
+        </div>
+    </article>
+    {% else %}
+    <p>Aucun département enregistré.</p>
+    {% endfor %}
+</div>
+{% endblock %}

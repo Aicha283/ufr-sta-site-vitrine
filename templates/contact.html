@@ -3,32 +3,34 @@
 {% block title %}Contact - UFR STA{% endblock %}
 
 {% block content %}
-<section class="page-title">
-    <h1>Contactez l'Administration</h1>
-    <p>Une question ? Un renseignement ? Écrivez-nous directement.</p>
+<section class="page-header">
+    <h1>Contactez-nous</h1>
+    <p>Une question ? Un renseignement ? Remplissez le formulaire ci-dessous pour joindre l'administration.</p>
 </section>
 
-<section class="container max-width-md">
-    <div class="card form-card">
-        <form action="#" method="POST" class="styled-form">
-            <div class="form-group">
-                <label for="nom">Nom complet</label>
-                <input type="text" id="nom" name="nom" required placeholder="Ex: Fatou Diop">
-            </div>
-            <div class="form-group">
-                <label for="email">Adresse Email</label>
-                <input type="email" id="email" name="email" required placeholder="Ex: fatou@example.com">
-            </div>
-            <div class="form-group">
-                <label for="sujet">Sujet</label>
-                <input type="text" id="sujet" name="sujet" required placeholder="Ex: Demande d'inscription">
-            </div>
-            <div class="form-group">
-                <label for="message">Votre message</label>
-                <textarea id="message" name="message" rows="6" required placeholder="Écrivez votre message ici..."></textarea>
-            </div>
-            <button type="submit" class="submit-btn">Envoyer le message</button>
-        </form>
-    </div>
-</section>
+<div class="contact-wrapper">
+    <form action="{{ url_for('contact') }}" method="POST" class="contact-form">
+        <div class="form-group">
+            <label for="nom">Nom complet</label>
+            <input type="text" id="nom" name="nom" required placeholder="Votre nom et prénom">
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Adresse Email profesional / personnel</label>
+            <input type="email" id="email" name="email" required placeholder="votre.email@exemple.com">
+        </div>
+        
+        <div class="form-group">
+            <label for="sujet">Sujet du message</label>
+            <input type="text" id="sujet" name="sujet" placeholder="Ex: Inscription, Demande d'information...">
+        </div>
+        
+        <div class="form-group">
+            <label for="contenu">Votre message</label>
+            <textarea id="contenu" name="contenu" rows="6" required placeholder="Écrivez votre message ici..."></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-submit">Envoyer le message</button>
+    </form>
+</div>
 {% endblock %}

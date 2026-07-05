@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Actualités - UFR STA{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Actualités de l'UFR</h1>
+    <p>Restez informé des derniers événements, soutenances et annonces officielles de notre établissement.</p>
+</section>
+
+<div class="grid-3">
+    {% for actu in actualites %}
+    <article class="card">
+        <div class="card-image-wrapper">
+            <img src="{{ url_for('static', filename='images/' + actu.photo) }}" alt="{{ actu.titre }}" class="card-img-top">
+        </div>
+        <div class="card-content">
+            <span class="date-badge">🗓️ {{ actu.date.strftime('%d %B %Y') }}</span>
+            <h2 class="card-title">{{ actu.titre }}</h2>
+            <p class="card-text">{{ actu.description }}</p>
+        </div>
+    </article>
+    {% else %}
+    <p>Aucune actualité disponible pour le moment.</p>
+    {% endfor %}
+</div>
+{% endblock %}

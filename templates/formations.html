@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Formations - UFR STA{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Offre de Formation</h1>
+    <p>Des cursus accrédités pour cibler des compétences d'avenir.</p>
+</section>
+
+<div class="formations-list">
+    {% for formation in formations %}
+    <article class="formation-block">
+        <div class="formation-header">
+            <span class="formation-tag">{{ formation.duree }}</span>
+            <h2>{{ formation.nom }}</h2>
+            <p>Niveau : <strong>{{ formation.niveau }}</strong> | Département : <em>{{ formation.departement.nom }}</em></p>
+        </div>
+
+        <div class="formation-meta-grid">
+            <div class="meta-box">
+                <h3>🎯 Conditions d'admission</h3>
+                <p>{{ formation.conditions_admission }}</p>
+            </div>
+            <div class="meta-box">
+                <h3>💼 Débouchés</h3>
+                <p>{{ formation.debouches }}</p>
+            </div>
+        </div>
+
+        <div class="program-section">
+            <h3>📖 Programme des Enseignements</h3>
+            <table class="module-table">
+                <thead>
+                    <tr>
+                        <th>Semestre 1</th>
+                        <th>Semestre 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <ul class="module-list">
+                            {% for mod in formation.modules if mod.semestre == 1 %}
+                                <li>{{ mod.nom }}</li>
+                            {% else %}
+                                <li>Aucun module répertorié</li>
+                            {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="module-list">
+                            {% for mod in formation.modules if mod.semestre == 2 %}
+                                <li>{{ mod.nom }}</li>
+                            {% else %}
+                                <li>Aucun module répertorié</li>
+                            {% endfor %}
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </article>
+    {% else %}
+    <p>Aucune formation disponible pour le moment.</p>
+    {% endfor %}
+</div>
+{% endblock %}
