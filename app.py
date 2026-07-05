@@ -35,7 +35,7 @@ def actualites():
 @app.route('/activites')
 def activites():
     activites = Activite.query.order_by(Activite.date.desc()).all()
-    return render_template('activites.html', activites=activites)
+    return render_template('activités.html', activites=activites)
 
 @app.route('/enseignants')
 def enseignants():
