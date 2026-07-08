@@ -1,7 +1,8 @@
 from app import app
-from models import db, Departement, Formation, Module, Actualite, Activite, Enseignant, Album, Photo
+from models import db, Departement, Formation, Module, Actualite, Activite, Enseignant, Album, PhotoActivite
+from datetime import date
 
-with app.app_context():
+def seed_data():
 
     # ===== DÉPARTEMENTS =====
     dept_info = Departement(
@@ -114,13 +115,13 @@ with app.app_context():
         titre="Ouverture des inscriptions 2026-2027",
         date=date(2026, 7, 1),
         description="Les inscriptions pour l'année académique 2026-2027 sont ouvertes.",
-        photo="default.jpg"
+        photo="photo_insc.jpeg"
     ))
     db.session.add(Actualite(
         titre="Soutenance de thèse — Dr. DIENG",
         date=date(2026, 6, 15),
         description="Soutenance de thèse de doctorat en informatique.",
-        photo="default.jpg"
+        photo="pic_soutenance.jpeg"
     ))
     db.session.commit()
 
@@ -179,13 +180,39 @@ with app.app_context():
     album = Album(
         titre="Journée scientifique 2026",
         description="Photos de la journée scientifique annuelle",
-        date=date(2026, 5, 10)
+        date=date(2026, 5, 10),
+        photos=[PhotoActivite(nom_fichier="photo1.jpeg"),
+        PhotoActivite(nom_fichier="photo2.jpeg"),
+        PhotoActivite(nom_fichier="photo3.jpeg")]
     )
     db.session.add(album)
     db.session.commit()
 
-    db.session.add(Photo(chemin="photo1.jpg", album_id=album.id))
-    db.session.add(Photo(chemin="photo2.jpg", album_id=album.id))
+   
+    from datetime import date
+    # Assurez-vous d'importer votre modèle : from models import Activite
+
+    # ===== GRAINES POUR LES ACTIVITÉS =====
+    db.session.add(Activite(
+        titre="Atelier de Développement Web Flask",
+        date=date(2026, 7, 5),
+        lieu="Laboratoire Informatique - UFR STA",
+        description="Une session intensive de codage pour les étudiants de L3 Informatique sur l'utilisation de Flask et SQLAlchemy."
+    ))
+
+    db.session.add(Activite(
+        titre="Visite d'étude au Data Center National",
+        date=date(2026, 6, 20),
+        lieu="Data Center de Diamniadio",
+        description="Sortie pédagogique guidée visant à découvrir les infrastructures réseau et de stockage haute performance."
+    ))
+
     db.session.commit()
+    print("Éléments du Journal des activités insérés avec succès.")
 
     print("✅ Données de test insérées avec succès !")
+if __name__ =='__main__':
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+        seed_data()
