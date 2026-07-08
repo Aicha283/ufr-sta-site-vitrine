@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Ajouter une Actualité - UFR STA{% endblock %}
+
+{% block content %}
+<div class="form-container" style="padding: 40px; max-width: 600px; margin: 40px auto; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-family: 'Plus Jakarta Sans', sans-serif;">
+    
+    <div style="margin-bottom: 25px;">
+        <a href="{{ url_for('admin_dashboard') }}" style="color: #3182ce; text-decoration: none; font-size: 0.9em;">← Retour au tableau de bord</a>
+        <h2 style="color: #2c3e50; margin-top: 15px; margin-bottom: 5px;">Publier une nouvelle actualité</h2>
+        <p style="color: #718096; margin: 0; font-size: 0.9em;">Remplissez les champs ci-dessous pour mettre à jour le site public.</p>
+    </div>
+
+    <form action="{{ url_for('ajouter_actualite') }}" method="POST" enctype="multipart/form-data"  style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <div class="form-group">
+            <label for="titre" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Titre de l'actualité</label>
+            <input type="text" id="titre" name="titre" placeholder="Ex: Soutenance de thèse en Informatique" required 
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem;">
+        </div>
+
+        <div class="form-group">
+            <label for="description" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Contenu / Description</label>
+            <textarea id="description" name="description" rows="6" placeholder="Écrivez le texte de l'actualité ici..." required 
+                      style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+        </div>
+          <div class="form-group">
+        <label for="photo" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Photo d'illustration</label>
+        <input type="file" id="photo" name="photo" accept="image/*"
+               style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem;">
+    </div>
+
+        <button type="submit" style="background: #3182ce; color: white; padding: 14px; border: none; border-radius: 5px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.2s;">
+            Enregistrer et Publier l'actualité
+        </button>
+    </form>
+</div>
+{% endblock %}

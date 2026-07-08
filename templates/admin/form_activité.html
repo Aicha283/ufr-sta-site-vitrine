@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Publier une Activité - UFR STA{% endblock %}
+
+{% block content %}
+<div class="form-container" style="padding: 40px; max-width: 600px; margin: 40px auto; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-family: 'Plus Jakarta Sans', sans-serif;">
+    
+    <div style="margin-bottom: 25px;">
+        <a href="{{ url_for('admin_dashboard') }}" style="color: #38a169; text-decoration: none; font-size: 0.9em;">← Retour au tableau de bord</a>
+        <h2 style="color: #2c3e50; margin-top: 15px; margin-bottom: 5px;">Publier une nouvelle activité</h2>
+        <p style="color: #718096; margin: 0; font-size: 0.9em;">Ajoutez un compte-rendu d'atelier, de hackathon ou de visite pour l'UFR STA.</p>
+    </div>
+
+    <form action="{{ url_for('ajouter_activite') }}" method="POST"  enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 20px;">
+        
+        <div class="form-group">
+            <label for="titre" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Titre de l'activité</label>
+            <input type="text" id="titre" name="titre" placeholder="Ex: Hackathon Inter-UFR 2026" required 
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem;">
+        </div>
+
+        <div class="form-group">
+            <label for="date" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Date de l'événement</label>
+            <input type="date" id="date" name="date" required 
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem;">
+        </div>
+
+        <div class="form-group">
+            <label for="lieu" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Lieu</label>
+            <input type="text" id="lieu" name="lieu" placeholder="Ex: Laboratoire Informatique, UFR STA" required 
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem;">
+        </div>
+          <div class="form-group">
+            <label>Organisateur</label>
+            <input type="text" name="organisateur" placeholder="Ex: Département Informatique" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px;">
+        </div>
+
+        <div class="form-group">
+            <label for="description" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Description / Compte-rendu</label>
+            <textarea id="description" name="description" rows="6" placeholder="Décrivez le déroulement de l'activité..." required 
+                      style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+        </div>
+         <div class="form-group">
+            <label>Photos de l'activité </label>
+            <input type="file" name="photos[]" accept="image/*" multiple style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px;">
+        </div>
+
+        <button type="submit" style="background: #38a169; color: white; padding: 14px; border: none; border-radius: 5px; font-size: 1rem; font-weight: bold; cursor: pointer;">
+            Enregistrer et Publier l'activité
+        </button>
+    </form>
+</div>
+{% endblock %}

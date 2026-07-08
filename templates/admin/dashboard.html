@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Tableau de Bord - Administration{% endblock %}
+
+{% block content %}
+<div class="dashboard-container" style="padding: 40px; max-width: 1200px; margin: 0 auto; font-family: sans-serif;">
+    
+    <div class="dashboard-header" style="margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h2 style="color: #1a252f; margin: 0;">Espace Administration — UFR STA</h2>
+            <p style="color: #7f8c8d; margin: 5px 0 0 0;">Bienvenue dans votre outil de gestion des contenus</p>
+        </div>
+        <a href="{{ url_for('admin_logout') }}" style="background-color: #e74c3c; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; font-weight: bold;">Déconnexion</a>
+    </div>
+
+    {# Zone d'affichage des messages Flash #}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}" style="padding: 15px; margin-bottom: 20px; border-radius: 4px; {% if category == 'success' %}background-color: #d4edda; color: #155724;{% else %}background-color: #f8d7da; color: #721c24;{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="admin-modules-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 20px;">
+        
+        <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">📰 Gérer les Actualités</h3>
+                <p style="color: #718096; font-size: 0.9em;">Publiez, modifiez ou supprimez les séminaires, conférences et soutenances de l'UFR.</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <a href="{{ url_for('ajouter_actualite') }}" style="background: #3182ce; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">➕ Ajouter une actualité</a>
+                <a href="#section-actualites" style="background: #4a5568; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">✏️ / 🗑️ Modifier ou Supprimer</a>
+                <a href="{{ url_for('actualites') }}" style="background: #edf2f7; color: #4a5568; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500; border: 1px solid #cbd5e0;">Voir la liste publique</a>
+            </div>
+        </div>
+
+        <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">🚀 Journal des Activités</h3>
+                <p style="color: #718096; font-size: 0.9em;">Gérez les comptes-rendus des visites, ateliers, compétitions et sorties.</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <a href="{{ url_for('ajouter_activite') }}" style="background: #38a169; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">➕ Publier une activité</a>
+                <a href="#section-activites" style="background: #4a5568; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">✏️ / 🗑️ Modifier ou Supprimer</a>
+                <a href="{{ url_for('afficher_le_journal_des_activites') }}" style="background: #edf2f7; color: #4a5568; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500; border: 1px solid #cbd5e0;">Voir le journal complet</a>
+            </div>
+        </div>
+        
+        <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">📸 Galerie Photos</h3>
+                <p style="color: #718096; font-size: 0.9em;">Créez et organisez les albums photos des événements par année.</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <a href="{{ url_for('ajouter_album') }}" style="background: #805ad5; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">➕ Ajouter un album</a>
+                <a href="#section-albums" style="background: #4a5568; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">✏️ / 🗑️ Modifier ou Supprimer</a>
+                <a href="{{ url_for('galerie') }}" style="background: #edf2f7; color: #4a5568; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500; border: 1px solid #cbd5e0;">Accéder à la galerie publique</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="section-actualites" style="margin-top: 60px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">✏️ / 🗑️ Actions sur les Actualités</h3>
+        <ul style="list-style: none; padding: 0;">
+            {% for actu in actualites %}
+            <li style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #edf2f7; align-items: center;">
+                <span><strong>{{ actu.date.strftime('%d/%m/%Y') }}</strong> — {{ actu.titre }}</span>
+                <div>
+                    <a href="{{ url_for('modifier_actualite', id=actu.id) }}" style="color: #3182ce; text-decoration: none; margin-right: 15px; font-weight: bold;">Modifier</a>
+                    <form action="{{ url_for('supprimer_actualite', id=actu.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer définitivement ?');">
+                        <button type="submit" style="background:none; border:none; color:#e53e3e; font-weight:bold; cursor:pointer;">Supprimer</button>
+                    </form>
+                </div>
+            </li>
+            {% else %}
+            <p style="color: #a0aec0; padding: 10px;">Aucune actualité disponible.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="section-activites" style="margin-top: 40px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <h3 style="color: #2f855a; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">✏️ / 🗑️ Actions sur les Activités</h3>
+        <ul style="list-style: none; padding: 0;">
+            {% for activite in activites %}
+            <li style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #edf2f7; align-items: center;">
+                <span><strong>{{ activite.date.strftime('%d/%m/%Y') }}</strong> — {{ activite.titre }} (📍 {{ activite.lieu }})</span>
+                <div>
+                    <a href="{{ url_for('modifier_activite', id=activite.id) }}" style="color: #38a169; text-decoration: none; margin-right: 15px; font-weight: bold;">Modifier</a>
+                    <form action="{{ url_for('supprimer_activite', id=activite.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Supprimer cette activité et toutes ses photos ?');">
+                        <button type="submit" style="background:none; border:none; color:#e53e3e; font-weight:bold; cursor:pointer;">Supprimer</button>
+                    </form>
+                </div>
+            </li>
+            {% else %}
+            <p style="color: #a0aec0; padding: 10px;">Aucune activité disponible.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="section-albums" style="margin-top: 40px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <h3 style="color: #6b46c1; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">✏️ / 🗑️ Actions sur les Albums Photos</h3>
+        <ul style="list-style: none; padding: 0;">
+            {% for album in albums %}
+            <li style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #edf2f7; align-items: center;">
+                <span><strong>{{ album.date.strftime('%d/%m/%Y') }}</strong> — {{ album.titre }} (🖼️ {{ album.photos|length }} photos)</span>
+                <div>
+                    <a href="{{ url_for('modifier_album', id=album.id) }}" style="color: #805ad5; text-decoration: none; margin-right: 15px; font-weight: bold;">Modifier</a>
+                    <form action="{{ url_for('supprimer_album', id=album.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer cet album et TOUTES ses photos ?');">
+                        <button type="submit" style="background:none; border:none; color:#e53e3e; font-weight:bold; cursor:pointer;">Supprimer</button>
+                    </form>
+                </div>
+            </li>
+            {% else %}
+            <p style="color: #a0aec0; padding: 10px;">Aucun album disponible.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Modifier l'album - Administration{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-family: sans-serif;">
+    
+    <h2 style="color: #805ad5; margin-top: 0; border-bottom: 2px solid #edf2f7; padding-bottom: 10px;">✏️ Modifier l'Album : {{ album.titre }}</h2>
+    
+    <form action="{{ url_for('modifier_album', id=album.id) }}" method="POST" enctype="multipart/form-data" style="margin-top: 20px; display: flex; flex-direction: column; gap: 20px;">
+        
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Titre de l'album</label>
+            <input type="text" name="titre" value="{{ album.titre }}" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box;">
+        </div>
+
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Date de l'événement</label>
+            <input type="date" name="date" value="{{ album.date.strftime('%Y-%m-%d') }}" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box;">
+        </div>
+
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Description</label>
+            <textarea name="description" rows="3" style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box; font-family: inherit;">{{ album.description }}</textarea>
+        </div>
+
+        <div style="background: #faf5ff; padding: 15px; border-radius: 6px; border: 1px solid #e9d8fd;">
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #6b46c1;">➕ Ajouter de nouvelles photos à cet album</label>
+            <input type="file" name="photos[]" accept="image/*" multiple style="width: 100%; padding: 5px; background: transparent;">
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" style="flex: 1; background: #38a169; color: white; border: none; padding: 12px; font-weight: bold; border-radius: 5px; cursor: pointer;">Enregistrer les modifications</button>
+            <a href="{{ url_for('admin_dashboard') }}" style="flex: 1; background: #edf2f7; color: #4a5568; text-align: center; padding: 12px; text-decoration: none; font-weight: bold; border-radius: 5px; box-sizing: border-box;">Annuler</a>
+        </div>
+    </form>
+
+    <h3 style="color: #4a5568; margin-top: 40px; border-top: 1px solid #edf2f7; padding-top: 20px;">🗑️ Photos actuellement présentes ({{ album.photos|length }})</h3>
+    <p style="color: #718096; font-size: 0.9em; margin-bottom: 15px;">Cliquez sur "Supprimer" sous une image pour la retirer définitivement de cet album.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
+        {% for photo in album.photos %}
+            <div style="border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; background: #f7fafc; text-align: center; padding-bottom: 8px;">
+                <img src="{{ url_for('static', filename='uploads/' ~ photo.nom_fichier) }}" style="width: 100%; height: 110px; object-fit: cover;">
+                
+                <form action="{{ url_for('supprimer_photo_album', photo_id=photo.id) }}" method="POST" style="margin-top: 8px;" onsubmit="return confirm('Retirer cette photo ?');">
+                    <button type="submit" style="background: none; border: none; color: #e53e3e; font-weight: bold; cursor: pointer; font-size: 0.85rem;">Retirer</button>
+                </form>
+            </div>
+        {% else %}
+            <p style="color: #a0aec0; grid-column: 1/-1; font-style: italic;">Cet album ne contient aucune photo.</p>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}
