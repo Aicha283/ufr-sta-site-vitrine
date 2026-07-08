@@ -41,20 +41,21 @@ class Activite(db.Model):
     lieu = db.Column(db.String(150))
     organisateur = db.Column(db.String(150))
     description = db.Column(db.Text)
-    photos = db.relationship('Photo', backref='activite', lazy=True)
+    photos = db.relationship('PhotoActivite', backref='activite', lazy=True)
 
 class Album(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     titre = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text)
     date = db.Column(db.Date)
-    photos = db.relationship('Photo', backref='album', lazy=True)
+    photos = db.relationship('PhotoActivite', backref='album', lazy=True)
 
-class Photo(db.Model):
+class PhotoActivite(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    chemin = db.Column(db.String(200), nullable=False)
+    nom_fichier= db.Column(db.String(255), nullable=False)
     activite_id = db.Column(db.Integer, db.ForeignKey('activite.id'), nullable=True)
     album_id = db.Column(db.Integer, db.ForeignKey('album.id'), nullable=True)
+    
 
 class Enseignant(db.Model):
     id = db.Column(db.Integer, primary_key=True)

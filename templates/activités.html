@@ -16,18 +16,23 @@
             <div class="activity-meta">
                 <span>📅 <strong>Date :</strong> {{ activite.date.strftime('%d/%m/%Y') }}</span>
                 <span>📍 <strong>Lieu :</strong> {{ activite.lieu }}</span>
+                {# Affichage conditionnel de l'organisateur s'il est renseigné #}
+                {% if activite.organisateur %}
                 <span>👤 <strong>Organisateur :</strong> {{ activite.organisateur }}</span>
+                {% endif %}
             </div>
         </div>
         
         <p class="activity-desc">{{ activite.description }}</p>
         
+        {# Si l'activité possède des photos dans sa galerie #}
         {% if activite.photos %}
         <div class="activity-gallery">
             <h3>📸 Photos de l'activité</h3>
             <div class="gallery-mini-grid">
                 {% for photo in activite.photos %}
-                <img src="{{ url_for('static', filename='images/' + photo.chemin) }}" alt="Photo de {{ activite.titre }}" class="gallery-thumb">
+                {# Correction ici : On pointe vers 'uploads/' et on utilise 'photo.nom_fichier' (cohérent avec le traitement d'image de l'admin) #}
+                <img src="{{ url_for('static', filename='uploads/' + photo.nom_fichier) }}" alt="Photo de {{ activite.titre }}" class="gallery-thumb">
                 {% endfor %}
             </div>
         </div>

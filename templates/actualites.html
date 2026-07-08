@@ -15,7 +15,7 @@
             <img src="{{ url_for('static', filename='images/' + actu.photo) }}" alt="{{ actu.titre }}" class="card-img-top">
         </div>
         <div class="card-content">
-            <span class="date-badge">🗓️ {{ actu.date.strftime('%d %B %Y') }}</span>
+            <span class="date-badge">🗓️ {{ actu.date.strftime('%d %m %Y') }}</span>
             <h2 class="card-title">{{ actu.titre }}</h2>
             <p class="card-text">{{ actu.description }}</p>
         </div>

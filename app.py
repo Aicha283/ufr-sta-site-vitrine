@@ -216,7 +216,7 @@ def ajouter_activite():
 
         # . Gestion des images multiples
         if 'photos[]' in request.files:
-            fichiers = request.files.getlist('photos') # getlist permet de récupérer TOUS les fichiers
+            fichiers = request.files.getlist('photos[]') # getlist permet de récupérer TOUS les fichiers
             for fichier in fichiers:
                 if fichier and fichier.filename != '':
                     # Sécurisation du nom de fichier

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Galerie Photos - UFR STA{% endblock %}
+
+{% block content %}
+<div class="galerie-container" style="max-width: 1200px; margin: 40px auto; padding: 0 20px; font-family: sans-serif;">
+    
+    <header style="text-align: center; margin-bottom: 50px;">
+        <h1 style="color: #2c3e50; font-size: 2.5rem; margin-bottom: 10px;">📸 Galerie de l'UFR STA</h1>
+        <p style="color: #7f8c8d; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+            Retrouvez en images les moments forts, les séminaires, les cérémonies et les activités de notre communauté universitaire.
+        </p>
+    </header>
+
+    {% for album in albums %}
+    <section class="album-section" style="background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin-bottom: 45px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+        
+        <div class="album-header" style="border-bottom: 2px solid #f7fafc; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+            <div>
+                <h2 style="color: #805ad5; margin: 0 0 5px 0; font-size: 1.6rem;">{{ album.titre }}</h2>
+                {% if album.description %}
+                    <p style="color: #4a5568; margin: 0; font-size: 0.95rem; line-height: 1.5;">{{ album.description }}</p>
+                {% endif %}
+            </div>
+            <span style="background: #f3e8ff; color: #6b46c1; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; white-space: nowrap;">
+                📅 {{ album.date.strftime('%d/%m/%Y') }}
+            </span>
+        </div>
+
+        <div class="album-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
+            {% for photo in album.photos %}
+                <div class="photo-card" style="border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #edf2f7; background: #f7fafc; transition: transform 0.2s ease;">
+                    <img src="{{ url_for('static', filename='uploads/' ~ photo.nom_fichier) }}" 
+                         alt="Photo de l'album {{ album.titre }}" 
+                         style="width: 100%; height: 180px; object-fit: cover; display: block;">
+                </div>
+            {% else %}
+                <p style="color: #a0aec0; grid-column: 1 / -1; font-style: italic; margin: 10px 0;">
+                    Aucune photo dans cet album pour le moment.
+                </p>
+            {% endfor %}
+        </div>
+
+    </section>
+    {% else %}
+    <div style="text-align: center; padding: 60px; background: #f7fafc; border-radius: 12px; border: 1px dashed #cbd5e0;">
+        <p style="color: #718096; font-size: 1.2rem; margin: 0;">Aucun album photo n'a été publié pour l'instant.</p>
+    </div>
+    {% endfor %}
+
+</div>
+
+<style>
+    .photo-card:hover {
+        transform: scale(1.03);
+    }
+</style>
+{% endblock %}

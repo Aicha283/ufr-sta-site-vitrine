@@ -1,0 +1,25 @@
+# ===== ENVIRONNEMENT VIRTUEL =====
+# On n'envoie jamais les dossiers d'installation des packages
+venv/
+.venv/
+env/
+ENV/
+
+# ===== BASE DE DONNÉES LOCALES =====
+# Pour éviter d'écraser la base de données de vos collègues à chaque commit
+*.db
+*.sqlite3
+
+# ===== FICHIERS CACHES PYTHON =====
+# Fichiers générés automatiquement par Python lors de l'exécution
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ===== CONFIGURATION DE VOTRE ÉDITEUR =====
+# Évite de partager vos préférences personnelles VS Code ou PyCharm
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
