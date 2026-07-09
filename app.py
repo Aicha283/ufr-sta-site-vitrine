@@ -164,7 +164,7 @@ def modifier_actualite(id):
         flash("L'actualité a été modifiée !", "success")
         return redirect(url_for('admin_dashboard'))
         
-    return render_template('admin/form_actualite.html', actu=actu)
+    return render_template('admin/form_actualité.html', actu=actu)
 
 
 @app.route('/admin/actualites/supprimer/<int:id>', methods=['POST'])
@@ -264,7 +264,7 @@ def modifier_activite(id):
         flash("L'activité a bien été modifiée !", "success")
         return redirect(url_for('admin_dashboard'))
         
-    return render_template('admin/form_activite.html', activite=activite)
+    return render_template('admin/form_activité.html', activite=activite)
 
 
 @app.route('/admin/activites/supprimer/<int:id>', methods=['POST'])
