@@ -1,5 +1,5 @@
 from flask import Flask, render_template,request,redirect,session,flash,url_for
-from models import db, Departement, Formation, Actualite, Activite, Enseignant, Album,Admin,PhotoActivite
+from models import db, Departement, Formation, Actualite, Activite, Enseignant, Album,Admin,PhotoActivite,MessageContact
 from datetime import datetime
 import functools
 import os
@@ -60,9 +60,7 @@ def galerie():
     albums = Album.query.all()
     return render_template('galerie.html', albums=albums)
 
-@app.route('/contact')
-def contact():
-    return render_template('contact.html')
+
 
 
 # Configuration du dossier de téléchargement des images
@@ -97,13 +95,15 @@ def admin_dashboard():
     toutes_les_actualites = Actualite.query.order_by(Actualite.date.desc()).all()
     toutes_les_activites = Activite.query.order_by(Activite.date.desc()).all()
     tous_les_albums = Album.query.order_by(Album.date.desc()).all() # <-- AJOUT ICI
+    tous_les_messages = MessageContact.query.order_by(MessageContact.id.desc()).all() 
     
     # On passe tout au template
     return render_template(
         'admin/dashboard.html', 
         actualites=toutes_les_actualites, 
         activites=toutes_les_activites,
-        albums=tous_les_albums # <-- AJOUT ICI
+        albums=tous_les_albums, # <-- AJOUT ICI
+        messages_contact=tous_les_messages 
     )
 
 # . GESTION DU FORMULAIRE D'ACTUALITÉ
@@ -336,8 +336,8 @@ def ajouter_album():
             flash(f"Une erreur est survenue lors de l'ajout : {str(e)}", "danger")
             return redirect(request.url)
 
-    # Si c'est une requête GET, on affiche simplement le formulaire
-    return render_template('admin/form_galerie.html')
+    # 
+    return render_template('admin/form_ajout_album.html')
 @app.route('/admin/galerie/modifier/<int:id>', methods=['GET', 'POST'])
 @login_required
 def modifier_album(id):
@@ -365,7 +365,7 @@ def modifier_album(id):
         flash("L'album a été mis à jour avec succès !", "success")
         return redirect(url_for('admin_dashboard'))
         
-    return render_template('admin/form_modifier_album.html', album=album)
+    return render_template('admin/form_galerie.html', album=album)
 
 
 @app.route('/admin/galerie/supprimer-photo/<int:photo_id>', methods=['POST'])
@@ -388,5 +388,23 @@ def supprimer_album(id):
     db.session.commit()
     flash("L'album et toutes ses photos ont été supprimés.", "danger")
     return redirect(url_for('admin_dashboard'))
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        nom = request.form['nom']
+        email = request.form['email']
+        sujet = request.form['sujet']
+        message = request.form['message']
+        
+        # Création et sauvegarde du message en BDD
+        nouveau_message = MessageContact(nom=nom, email=email, sujet=sujet, message=message)
+        db.session.add(nouveau_message)
+        db.session.commit()
+        
+        flash("Votre message a été envoyé avec succès ! L'administration vous répondra sous peu.", "success")
+        return redirect(url_for('contact'))
+        
+    return render_template('contact.html')
 if __name__ == '__main__':
     app.run(debug=True)
