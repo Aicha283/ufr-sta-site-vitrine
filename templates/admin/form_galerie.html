@@ -7,7 +7,7 @@
     
     <h2 style="color: #805ad5; margin-top: 0; border-bottom: 2px solid #edf2f7; padding-bottom: 10px;">✏️ Modifier l'Album : {{ album.titre }}</h2>
     
-    <form action="{{ url_for('modifier_album', id=album.id) }}" method="POST" enctype="multipart/form-data" style="margin-top: 20px; display: flex; flex-direction: column; gap: 20px;">
+    <form action="{{ url_for('ajouter_album', id=album.id) }}" method="POST" enctype="multipart/form-data" style="margin-top: 20px; display: flex; flex-direction: column; gap: 20px;">
         
         <div>
             <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Titre de l'album</label>

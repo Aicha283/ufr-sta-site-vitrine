@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Créer un album - Administration{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-family: sans-serif;">
+    
+    <h2 style="color: #805ad5; margin-top: 0; border-bottom: 2px solid #edf2f7; padding-bottom: 10px;">📸 Créer un nouvel Album Photo</h2>
+    
+    <form action="{{ url_for('ajouter_album') }}" method="POST" enctype="multipart/form-data" style="margin-top: 20px; display: flex; flex-direction: column; gap: 20px;">
+        
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Titre de l'album</label>
+            <input type="text" name="titre" required placeholder="Ex: Remise des diplômes 2026" style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box;">
+        </div>
+
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Date de l'événement</label>
+            <input type="date" name="date" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box;">
+        </div>
+
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Description</label>
+            <textarea name="description" rows="3" placeholder="Description de l'événement..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box; font-family: inherit;"></textarea>
+        </div>
+
+        <div style="background: #faf5ff; padding: 15px; border-radius: 6px; border: 1px solid #e9d8fd;">
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #6b46c1;">➕ Sélectionner les photos</label>
+            <input type="file" name="photos[]" accept="image/*" multiple required style="width: 100%; padding: 5px; background: transparent;">
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" style="flex: 1; background: #805ad5; color: white; border: none; padding: 12px; font-weight: bold; border-radius: 5px; cursor: pointer;">🚀 Créer l'album</button>
+            <a href="{{ url_for('admin_dashboard') }}" style="flex: 1; background: #edf2f7; color: #4a5568; text-align: center; padding: 12px; text-decoration: none; font-weight: bold; border-radius: 5px; box-sizing: border-box;">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
