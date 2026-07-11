@@ -96,6 +96,7 @@ def admin_dashboard():
     toutes_les_activites = Activite.query.order_by(Activite.date.desc()).all()
     tous_les_albums = Album.query.order_by(Album.date.desc()).all() # <-- AJOUT ICI
     tous_les_messages = MessageContact.query.order_by(MessageContact.id.desc()).all() 
+    formations= Formation.query.all()
     
     # On passe tout au template
     return render_template(
@@ -103,7 +104,8 @@ def admin_dashboard():
         actualites=toutes_les_actualites, 
         activites=toutes_les_activites,
         albums=tous_les_albums, # <-- AJOUT ICI
-        messages_contact=tous_les_messages 
+        messages_contact=tous_les_messages,
+        formations=formations
     )
 
 # . GESTION DU FORMULAIRE D'ACTUALITÉ
@@ -406,5 +408,65 @@ def contact():
         return redirect(url_for('contact'))
         
     return render_template('contact.html')
+
+from models import Formation, Departement # Assurez-vous d'importer vos modèles
+
+@app.route('/admin/formation/ajouter', methods=['GET', 'POST'])
+@login_required
+def ajouter_formation():
+    
+    departements = Departement.query.all()
+    
+    if request.method == 'POST':
+        nom = request.form.get('nom')
+        niveau = request.form.get('niveau')
+        duree = request.form.get('duree')
+        conditions_admission = request.form.get('conditions_admission')
+        debouches = request.form.get('debouches')
+        departement_id = request.form.get('departement_id')
+        
+        nouvelle_formation = Formation(
+            nom=nom, 
+            niveau=niveau, 
+            duree=duree, 
+            conditions_admission=conditions_admission, 
+            debouches=debouches,
+            departement_id=int(departement_id)
+        )
+        db.session.add(nouvelle_formation)
+        db.session.commit()
+        
+        flash("La formation a été créée avec succès !", "success")
+        return redirect(url_for('admin_dashboard'))
+        
+    return render_template('admin/form_formation.html', formation=None, departements=departements)
+
+@app.route('/admin/formation/modifier/<int:id>', methods=['GET', 'POST'])
+@login_required
+def modifier_formation(id):
+    formation = Formation.query.get_or_404(id)
+    departements = Departement.query.all()
+    
+    if request.method == 'POST':
+        formation.nom = request.form.get('nom')
+        formation.niveau = request.form.get('niveau')
+        formation.duree = request.form.get('duree')
+        formation.conditions_admission = request.form.get('conditions_admission')
+        formation.debouches = request.form.get('debouches')
+        formation.departement_id = int(request.form.get('departement_id'))
+        
+        db.session.commit()
+        flash("La formation a bien été mise à jour !", "success")
+        return redirect(url_for('admin_dashboard'))
+        
+    return render_template('admin/form_formation.html', formation=formation, departements=departements)
+@app.route('/admin/formation/supprimer/<int:id>', methods=['POST'])
+@login_required
+def supprimer_formation(id):
+    formation = Formation.query.get_or_404(id)
+    db.session.delete(formation)
+    db.session.commit()
+    flash("Formation supprimée avec succès !", "success")
+    return redirect(url_for('admin_dashboard'))
 if __name__ == '__main__':
     app.run(debug=True)
