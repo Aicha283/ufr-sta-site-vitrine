@@ -24,7 +24,7 @@
         {% endif %}
     {% endwith %}
 
-    <div class="admin-modules-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-top: 20px;">
+    <div class="admin-modules-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-top: 20px;">
         
         <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
             <div>
@@ -41,7 +41,7 @@
         <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
             <div>
                 <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">🚀 Journal des Activités</h3>
-                <p style="color: #718096; font-size: 0.9em;">Gérez les comptes-rendus des visites, ateliers, compétitions et sorties.</p>
+                <p style="color: #718096; font-size: 0.9em;">Gerez les comptes-rendus des visites, ateliers, compétitions et sorties.</p>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
                 <a href="{{ url_for('ajouter_activite') }}" style="background: #38a169; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">➕ Publier une activité</a>
@@ -62,10 +62,22 @@
             </div>
         </div>
 
+        <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">🎓 Formations</h3>
+                <p style="color: #718096; font-size: 0.9em;">Gérez l'offre de formation de l'UFR (Licences, Masters, critères d'admission).</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <a href="{{ url_for('ajouter_formation') }}" style="background: #2b6cb0; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">➕ Ajouter une formation</a>
+                <a href="#section-formations" style="background: #4a5568; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">✏️ / 🗑️ Modifier ou Supprimer</a>
+                 <a href="{{ url_for('formations') }}" style="background: #edf2f7; color: #4a5568; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500; border: 1px solid #cbd5e0;">Voir les formations publiques</a>
+            </div>
+        </div>
+
     </div>
 
     <div id="section-actualites" style="margin-top: 60px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
-        <h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">✏️ / 🗑️ Actions sur les Actualités</h3>
+        <h3 style="color: #3182ce; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">✏️ / 🗑️ Actions sur les Actualités</h3>
         <ul style="list-style: none; padding: 0;">
             {% for actu in actualites %}
             <li style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #edf2f7; align-items: center;">
@@ -120,7 +132,27 @@
             {% endfor %}
         </ul>
     </div>
-       <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; margin-top: 25px;">
+
+    <div id="section-formations" style="margin-top: 40px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <h3 style="color: #2b6cb0; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">✏️ / 🗑️ Actions sur les Formations</h3>
+        <ul style="list-style: none; padding: 0;">
+            {% for formation in formations %}
+            <li style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #edf2f7; align-items: center;">
+                <span><strong>[{{ formation.niveau }}]</strong> — {{ formation.nom }} {% if formation.departement %}(📝 {{ formation.departement.nom }}){% endif %}</span>
+                <div>
+                    <a href="{{ url_for('modifier_formation', id=formation.id) }}" style="color: #3182ce; text-decoration: none; margin-right: 15px; font-weight: bold;">Modifier</a>
+                    <form action="{{ url_for('supprimer_formation', id=formation.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment supprimer cette formation ?');">
+                        <button type="submit" style="background:none; border:none; color:#e53e3e; font-weight:bold; cursor:pointer;">Supprimer</button>
+                    </form>
+                </div>
+            </li>
+            {% else %}
+            <p style="color: #a0aec0; padding: 10px;">Aucune formation enregistrée pour le moment.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; margin-top: 40px;">
         <div>
             <h3 style="color: #dd6b20; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">📥 Messages Boîte</h3>
             <p style="color: #718096; font-size: 0.9em;">Consultez et gérez les questions envoyées par les étudiants ou visiteurs via la page de contact.</p>
@@ -130,7 +162,6 @@
         </div>
     </div>
 
-    
     <div id="section-messages" style="margin-top: 40px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
         <h3 style="color: #dd6b20; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">📥 Messages reçus via le site</h3>
         

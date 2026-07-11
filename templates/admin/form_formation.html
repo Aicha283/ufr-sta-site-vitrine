@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if formation %}Modifier{% else %}Ajouter{% endif %} une formation{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); font-family: sans-serif;">
+    
+    <h2 style="color: #805ad5; margin-top: 0; border-bottom: 2px solid #edf2f7; padding-bottom: 10px;">
+        {% if formation %}✏️ Modifier la Formation : {{ formation.nom }}{% else %}🎓 Ajouter une nouvelle Formation{% endif %}
+    </h2>
+    
+    <form action="{% if formation %}{{ url_for('modifier_formation', id=formation.id) }}{% else %}{{ url_for('ajouter_formation') }}{% endif %}" method="POST" style="margin-top: 20px; display: flex; flex-direction: column; gap: 20px;">
+        
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Rattacher à un Département</label>
+            <select name="departement_id" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box;">
+                <option value="">-- Sélectionner un département --</option>
+                {% for dept in departements %}
+                    <option value="{{ dept.id }}" {% if formation and formation.departement_id == dept.id %}selected{% endif %}>
+                        {{ dept.nom }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Nom de la formation</label>
+            <input type="text" name="nom" value="{% if formation %}{{ formation.nom }}{% endif %}" required placeholder="Ex: Licence en Statistique et Informatique" style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box;">
+        </div>
+
+        <div style="display: flex; gap: 15px;">
+            <div style="flex: 1;">
+                <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Niveau</label>
+                <input type="text" name="niveau" value="{% if formation %}{{ formation.niveau }}{% endif %}" required placeholder="Ex: Licence, Master" style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box;">
+            </div>
+            <div style="flex: 1;">
+                <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Durée</label>
+                <input type="text" name="duree" value="{% if formation %}{{ formation.duree }}{% endif %}" required placeholder="Ex: 3 ans, 2 ans" style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box;">
+            </div>
+        </div>
+
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Conditions d'admission</label>
+            <textarea name="conditions_admission" rows="3" placeholder="Ex: Titulaire d'un Bac S, Sélection sur dossier..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box; font-family: inherit;">{% if formation %}{{ formation.conditions_admission }}{% endif %}</textarea>
+        </div>
+
+        <div>
+            <label style="display: block; font-weight: bold; margin-bottom: 5px; color: #4a5568;">Débouchés professionnels</label>
+            <textarea name="debouches" rows="3" placeholder="Ex: Data Analyst, Statisticien..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 5px; box-sizing: border-box; font-family: inherit;">{% if formation %}{{ formation.debouches }}{% endif %}</textarea>
+        </div>
+
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" style="flex: 1; background: #38a169; color: white; border: none; padding: 12px; font-weight: bold; border-radius: 5px; cursor: pointer;">
+                {% if formation %}Enregistrer les modifications{% else %}🚀 Créer la formation{% endif %}
+            </button>
+            <a href="{{ url_for('admin_dashboard') }}" style="flex: 1; background: #edf2f7; color: #4a5568; text-align: center; padding: 12px; text-decoration: none; font-weight: bold; border-radius: 5px; box-sizing: border-box;">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
