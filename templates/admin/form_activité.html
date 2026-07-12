@@ -1,52 +1,70 @@
 {% extends 'base.html' %}
 
-{% block title %}Publier une Activité - UFR STA{% endblock %}
+{% block title %}{{ action if action else 'Publier' }} une Activité - UFR STA{% endblock %}
 
 {% block content %}
 <div class="form-container" style="padding: 40px; max-width: 600px; margin: 40px auto; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-family: 'Plus Jakarta Sans', sans-serif;">
     
     <div style="margin-bottom: 25px;">
         <a href="{{ url_for('admin_dashboard') }}" style="color: #38a169; text-decoration: none; font-size: 0.9em;">← Retour au tableau de bord</a>
-        <h2 style="color: #2c3e50; margin-top: 15px; margin-bottom: 5px;">Publier une nouvelle activité</h2>
-        <p style="color: #718096; margin: 0; font-size: 0.9em;">Ajoutez un compte-rendu d'atelier, de hackathon ou de visite pour l'UFR STA.</p>
+        <h2 style="color: #2c3e50; margin-top: 15px; margin-bottom: 5px;">{{ action if action else 'Publier' }} une nouvelle activité</h2>
+        <p style="color: #718096; margin: 0; font-size: 0.9em;">Ajoutez ou modifiez un compte-rendu d'atelier, de hackathon ou de visite pour l'UFR STA.</p>
     </div>
 
-    <form action="{{ url_for('ajouter_activite') }}" method="POST"  enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 20px;">
+    <!-- 🛠️ Enlévement de l'action fixe pour poster automatiquement sur la route de modification ou d'ajout courante -->
+    <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 20px;">
         
         <div class="form-group">
             <label for="titre" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Titre de l'activité</label>
-            <input type="text" id="titre" name="titre" placeholder="Ex: Hackathon Inter-UFR 2026" required 
+            <input type="text" id="titre" name="titre" value="{{ activite.titre if activite else '' }}" placeholder="Ex: Hackathon Inter-UFR 2026" required 
                    style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem;">
         </div>
 
         <div class="form-group">
             <label for="date" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Date de l'événement</label>
-            <input type="date" id="date" name="date" required 
+            <!-- 📅 Le format de date HTML nécessite souvent une chaîne type YYYY-MM-DD. Si ton objet date est un objet datetime Python, .strftime('%Y-%m-%d') est l'idéal -->
+            <input type="date" id="date" name="date" value="{{ activite.date.strftime('%Y-%m-%d') if activite and activite.date else (activite.date if activite else '') }}" required 
                    style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem;">
         </div>
 
         <div class="form-group">
             <label for="lieu" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Lieu</label>
-            <input type="text" id="lieu" name="lieu" placeholder="Ex: Laboratoire Informatique, UFR STA" required 
+            <input type="text" id="lieu" name="lieu" value="{{ activite.lieu if activite else '' }}" placeholder="Ex: Laboratoire Informatique, UFR STA" required 
                    style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem;">
         </div>
-          <div class="form-group">
-            <label>Organisateur</label>
-            <input type="text" name="organisateur" placeholder="Ex: Département Informatique" style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px;">
+
+        <div class="form-group">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Organisateur</label>
+            <input type="text" name="organisateur" value="{{ activite.organisateur if activite else '' }}" placeholder="Ex: Département Informatique" 
+                   style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem;">
         </div>
 
         <div class="form-group">
             <label for="description" style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Description / Compte-rendu</label>
             <textarea id="description" name="description" rows="6" placeholder="Décrivez le déroulement de l'activité..." required 
-                      style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem; font-family: inherit; resize: vertical;"></textarea>
+                      style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem; font-family: inherit; resize: vertical;">{{ activite.description if activite else '' }}</textarea>
         </div>
-         <div class="form-group">
-            <label>Photos de l'activité </label>
-            <input type="file" name="photos[]" accept="image/*" multiple style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px;">
+
+        <div class="form-group">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568;">Ajouter des photos à l'activité </label>
+            
+            <!-- 🖼️ Affichage des photos existantes s'il y en a de rattachées -->
+            {% if activite and activite.photos %}
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;">
+                    {% for p in activite.photos %}
+                        <div style="position: relative;">
+                            <img src="{{ url_for('static', filename='uploads/' + p.nom_fichier) }}" style="width: 70px; height: 50px; object-fit: cover; border-radius: 4px; border: 1px solid #cbd5e0;">
+                        </div>
+                    {% endfor %}
+                </div>
+                <p style="font-size: 0.8em; color: #718096; margin-top: -5px; margin-bottom: 10px;">Photos actuellement en ligne. Ajoutez-en d'autres ci-dessous si nécessaire.</p>
+            {% endif %}
+
+            <input type="file" name="photos[]" accept="image/*" multiple style="width: 100%; padding: 12px; border: 1px solid #cbd5e0; border-radius: 5px; font-size: 1rem;">
         </div>
 
         <button type="submit" style="background: #38a169; color: white; padding: 14px; border: none; border-radius: 5px; font-size: 1rem; font-weight: bold; cursor: pointer;">
-            Enregistrer et Publier l'activité
+            {{ 'Enregistrer les modifications' if activite else 'Enregistrer et Publier l\'activité' }}
         </button>
     </form>
 </div>

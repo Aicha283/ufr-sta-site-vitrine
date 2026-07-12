@@ -26,7 +26,7 @@
                 <h4 style="margin: 0 0 10px 0; color: #4a5568;">👥 Équipe Pédagogique :</h4>
                 {% for ens in dept.enseignants %}
                 <div style="display: flex; gap: 10px; margin-bottom: 12px; align-items: center; background: #f7fafc; padding: 8px; border-radius: 6px;">
-                    <img src="{{ url_for('static', filename='images/' + ens.photo) if ens.photo else url_for('static', filename='images/default_avatar.png') }}" 
+                    <img src="{{ url_for('static', filename='uploads/' + ens.photo) if ens.photo else url_for('static', filename='uploads/default_avatar.png') }}" 
                          alt="Photo de {{ ens.nom }}" 
                          style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid #cbd5e0;">
                     <div style="font-size: 0.85em;">
