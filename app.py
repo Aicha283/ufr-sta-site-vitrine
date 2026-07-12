@@ -97,6 +97,7 @@ def admin_dashboard():
     tous_les_albums = Album.query.order_by(Album.date.desc()).all() # <-- AJOUT ICI
     tous_les_messages = MessageContact.query.order_by(MessageContact.id.desc()).all() 
     formations= Formation.query.all()
+    enseignants=Enseignant.query.all()
     
     # On passe tout au template
     return render_template(
@@ -105,7 +106,8 @@ def admin_dashboard():
         activites=toutes_les_activites,
         albums=tous_les_albums, # <-- AJOUT ICI
         messages_contact=tous_les_messages,
-        formations=formations
+        formations=formations,
+        enseignants=enseignants
     )
 
 # . GESTION DU FORMULAIRE D'ACTUALITÉ
@@ -467,6 +469,94 @@ def supprimer_formation(id):
     db.session.delete(formation)
     db.session.commit()
     flash("Formation supprimée avec succès !", "success")
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/admin/enseignant/ajouter', methods=['GET', 'POST'])
+@login_required  # Si tu utilises un système de connexion
+def ajouter_enseignant():
+    if request.method == 'POST':
+        nom = request.form.get('nom')
+        grade = request.form.get('grade')
+        email = request.form.get('email')
+        domaines_recherche = request.form.get('domaines_recherche')
+        departement_id = request.form.get('departement_id')
+        
+        # Gestion du téléversement de la photo
+        file = request.files.get('photo')
+        filename = 'default_avatar.png' # Image par défaut si aucune photo n'est mise
+        
+        if file and file.filename != '':
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            
+        # Création de l'enregistrement dans la base de données
+        nouveau_prof = Enseignant(
+            nom=nom,
+            grade=grade,
+            email=email,
+            domaines_recherche=domaines_recherche,
+            photo=filename,
+            departement_id=int(departement_id)
+        )
+        
+        db.session.add(nouveau_prof)
+        db.session.commit()
+        flash('Enseignant ajouté avec succès !', 'success')
+        return redirect(url_for('admin_dashboard'))
+        
+    # En mode GET, on récupère les départements pour alimenter le menu déroulant du formulaire
+    departements = Departement.query.all()
+    return render_template('admin/form_enseignant.html', departements=departements, action="Ajouter")
+@app.route('/admin/enseignant/modifier/<int:id>', methods=['GET', 'POST'])
+@login_required # Si tu l'utilises pour sécuriser tes routes admin
+def modifier_enseignant(id):
+    enseignant = Enseignant.query.get_or_404(id)
+    
+    if request.method == 'POST':
+        enseignant.nom = request.form.get('nom')
+        enseignant.grade = request.form.get('grade')
+        enseignant.email = request.form.get('email')
+        enseignant.domaines_recherche = request.form.get('domaines_recherche')
+        enseignant.departement_id = int(request.form.get('departement_id'))
+        
+        # Gestion du changement de photo (optionnel)
+        file = request.files.get('photo')
+        if file and file.filename != '':
+            
+            if enseignant.photo and enseignant.photo != 'default_avatar.png':
+                try:
+                    os.remove(os.path.join(UPLOAD_FOLDER, enseignant.photo))
+                except:
+                    pass
+            
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
+            enseignant.photo = filename
+            
+        db.session.commit()
+        flash('Fiche enseignant mise à jour avec succès !', 'success')
+        return redirect(url_for('admin_dashboard'))
+        
+    
+    departements = Departement.query.all()
+    return render_template('admin/form_enseignant.html', 
+                           enseignant=enseignant, 
+                           departements=departements, 
+                           action="Modifier")
+@app.route('/admin/enseignant/supprimer/<int:id>', methods=['POST'])
+@login_required
+def supprimer_enseignant(id):
+    enseignant = Enseignant.query.get_or_404(id)
+    if enseignant.photo and enseignant.photo != 'default_avatar.png':
+        try:
+            os.remove(os.path.join(UPLOAD_FOLDER, enseignant.photo))
+        except:
+            pass 
+    
+            
+    db.session.delete(enseignant)
+    db.session.commit()
+    flash('Enseignant retiré avec succès !', 'success')
     return redirect(url_for('admin_dashboard'))
 if __name__ == '__main__':
     app.run(debug=True)
