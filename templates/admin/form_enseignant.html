@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ action }} un Enseignant - Administration{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 40px auto; background: #fff; padding: 30px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-family: sans-serif;">
+    <h2 style="color: #2c3e50; border-bottom: 2px solid #edf2f7; padding-bottom: 10px; margin-top: 0;">{{ action }} un Enseignant</h2>
+    
+    <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+        
+        <div>
+            <label style="display: block; margin-bottom: 5px; color: #4a5568; font-weight: bold;">Nom Complet :</label>
+            <input type="text" name="nom" value="{{ enseignant.nom if enseignant else '' }}" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px;">
+        </div>
+
+        <div>
+            <label style="display: block; margin-bottom: 5px; color: #4a5568; font-weight: bold;">Grade (ex: Pr, Dr, MCA...) :</label>
+            <input type="text" name="grade" value="{{ enseignant.grade if enseignant else '' }}" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px;">
+        </div>
+
+        <div>
+            <label style="display: block; margin-bottom: 5px; color: #4a5568; font-weight: bold;">Email Professionnel :</label>
+            <input type="email" name="email" value="{{ enseignant.email if enseignant else '' }}" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px;">
+        </div>
+
+        <div>
+            <label style="display: block; margin-bottom: 5px; color: #4a5568; font-weight: bold;">Rattaché au Département :</label>
+            <select name="departement_id" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px; background: white;">
+                {% for dept in departements %}
+                    <option value="{{ dept.id }}" {% if enseignant and enseignant.departement_id == dept.id %}selected{% endif %}>
+                        {{ dept.nom }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label style="display: block; margin-bottom: 5px; color: #4a5568; font-weight: bold;">Domaines de Recherche :</label>
+            <textarea name="domaines_recherche" rows="3" required style="width: 100%; padding: 10px; border: 1px solid #cbd5e0; border-radius: 4px; resize: vertical;">{{ enseignant.domaines_recherche if enseignant else '' }}</textarea>
+        </div>
+
+        <div>
+            <label style="display: block; margin-bottom: 5px; color: #4a5568; font-weight: bold;">Photo de profil :</label>
+            {% if enseignant and enseignant.photo %}
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                    <img src="{{ url_for('static', filename='images/' + enseignant.photo) }}" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                    <span style="font-size: 0.85em; color: #718096;">Photo actuelle (Laissez vide pour ne pas la changer)</span>
+                </div>
+            {% endif %}
+            <input type="file" name="photo" accept="image/*" style="width: 100%; padding: 5px;">
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button type="submit" style="background: #c53030; color: white; padding: 12px 20px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; flex: 1;">Enregistrer les modifications</button>
+            <a href="{{ url_for('admin_dashboard') }}" style="background: #edf2f7; color: #4a5568; padding: 12px 20px; text-decoration: none; border-radius: 4px; text-align: center; font-weight: bold; border: 1px solid #cbd5e0;">Annuler</a>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

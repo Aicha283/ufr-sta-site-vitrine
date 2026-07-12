@@ -28,7 +28,7 @@
         
         <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
             <div>
-                <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">📰 Gérer les Actualités</h3>
+                <h3 style="color: #3182ce; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">📰 Gérer les Actualités</h3>
                 <p style="color: #718096; font-size: 0.9em;">Publiez, modifiez ou supprimez les séminaires, conférences et soutenances de l'UFR.</p>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
@@ -40,7 +40,7 @@
 
         <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
             <div>
-                <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">🚀 Journal des Activités</h3>
+                <h3 style="color: #2f855a; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">🚀 Journal des Activités</h3>
                 <p style="color: #718096; font-size: 0.9em;">Gerez les comptes-rendus des visites, ateliers, compétitions et sorties.</p>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
@@ -52,7 +52,7 @@
         
         <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
             <div>
-                <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">📸 Galerie Photos</h3>
+                <h3 style="color: #6b46c1; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">📸 Galerie Photos</h3>
                 <p style="color: #718096; font-size: 0.9em;">Créez et organisez les albums photos des événements par année.</p>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
@@ -64,7 +64,7 @@
 
         <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
             <div>
-                <h3 style="color: #2c3e50; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">🎓 Formations</h3>
+                <h3 style="color: #2b6cb0; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">🎓 Formations</h3>
                 <p style="color: #718096; font-size: 0.9em;">Gérez l'offre de formation de l'UFR (Licences, Masters, critères d'admission).</p>
             </div>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
@@ -74,7 +74,20 @@
             </div>
         </div>
 
-    </div>
+        <!-- 🆕 NOUVEAU MODULE AJOUTÉ : ENSEIGNANTS (S'aligne parfaitement dans la grille) -->
+        <div class="card-module" style="border: 1px solid #e2e8f0; padding: 25px; border-radius: 8px; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h3 style="color: #c53030; margin-top: 0; border-bottom: 1px solid #edf2f7; padding-bottom: 10px;">👨‍🏫 Corps Enseignant</h3>
+                <p style="color: #718096; font-size: 0.9em;">Gérez l'équipe pédagogique, les grades, emails et spécialités de recherche.</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+                <a href="{{ url_for('ajouter_enseignant') }}" style="background: #c53030; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">➕ Ajouter un enseignant</a>
+                <a href="#section-enseignants" style="background: #4a5568; color: white; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500;">✏️ / 🗑️ Modifier ou Supprimer</a>
+                <a href="{{ url_for('departements') }}" style="background: #edf2f7; color: #4a5568; text-align: center; padding: 10px; text-decoration: none; border-radius: 5px; font-weight: 500; border: 1px solid #cbd5e0;">Voir sur la page Départements</a>
+            </div>
+        </div>
+
+    </div> <!-- Fin de la grille -->
 
     <div id="section-actualites" style="margin-top: 60px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
         <h3 style="color: #3182ce; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">✏️ / 🗑️ Actions sur les Actualités</h3>
@@ -148,6 +161,29 @@
             </li>
             {% else %}
             <p style="color: #a0aec0; padding: 10px;">Aucune formation enregistrée pour le moment.</p>
+            {% endfor %}
+        </ul>
+    </div>
+
+    
+    <div id="section-enseignants" style="margin-top: 40px; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <h3 style="color: #c53030; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">✏️ / 🗑️ Actions sur les Enseignants</h3>
+        <ul style="list-style: none; padding: 0;">
+            {% for ens in enseignants %}
+            <li style="display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #edf2f7; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <img src="{{ url_for('static', filename='images/' + ens.photo) if ens.photo else url_for('static', filename='images/default_avatar.png') }}" style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 1px solid #cbd5e0;">
+                    <span><strong>{{ ens.nom }}</strong> — {{ ens.grade }} {% if ens.departement %}(📍 {{ ens.departement.nom }}){% endif %}</span>
+                </div>
+                <div>
+                    <a href="{{ url_for('modifier_enseignant', id=ens.id) }}" style="color: #3182ce; text-decoration: none; margin-right: 15px; font-weight: bold;">Modifier</a>
+                    <form action="{{ url_for('supprimer_enseignant', id=ens.id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Voulez-vous vraiment retirer cet enseignant ?');">
+                        <button type="submit" style="background:none; border:none; color:#e53e3e; font-weight:bold; cursor:pointer;">Supprimer</button>
+                    </form>
+                </div>
+            </li>
+            {% else %}
+            <p style="color: #a0aec0; padding: 10px;">Aucun enseignant répertorié pour le moment.</p>
             {% endfor %}
         </ul>
     </div>
