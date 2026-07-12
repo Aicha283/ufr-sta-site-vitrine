@@ -21,7 +21,26 @@
                 <span>👨‍🏫 {{ dept.enseignants|length }} Enseignants</span>
             </div>
             
-            <p class="dept-contact">📧 Contact : {{ dept.contact }}</p>
+            <!-- LISTE DES ENSEIGNANTS DU DÉPARTEMENT -->
+            <div class="teachers-list" style="margin-top: 15px; padding-top: 15px; border-top: 1px dashed #e2e8f0;">
+                <h4 style="margin: 0 0 10px 0; color: #4a5568;">👥 Équipe Pédagogique :</h4>
+                {% for ens in dept.enseignants %}
+                <div style="display: flex; gap: 10px; margin-bottom: 12px; align-items: center; background: #f7fafc; padding: 8px; border-radius: 6px;">
+                    <img src="{{ url_for('static', filename='images/' + ens.photo) if ens.photo else url_for('static', filename='images/default_avatar.png') }}" 
+                         alt="Photo de {{ ens.nom }}" 
+                         style="width: 45px; height: 45px; border-radius: 50%; object-fit: cover; border: 1px solid #cbd5e0;">
+                    <div style="font-size: 0.85em;">
+                        <strong style="color: #2d3748;">{{ ens.nom }}</strong> <span style="color: #718096; font-style: italic;">({{ ens.grade }})</span><br>
+                        <span style="color: #4a5568;">🔬 {{ ens.domaines_recherche }}</span><br>
+                        <a href="mailto:{{ ens.email }}" style="color: #3182ce; text-decoration: none; font-size: 0.9em;">📧 {{ ens.email }}</a>
+                    </div>
+                </div>
+                {% else %}
+                <p style="font-size: 0.85em; color: #a0aec0; font-style: italic;">Aucun enseignant répertorié.</p>
+                {% endfor %}
+            </div>
+
+            <p class="dept-contact" style="margin-top: 15px;">📧 Contact : {{ dept.contact }}</p>
             <a href="{{ url_for('formations') }}?departement={{ dept.id }}" class="btn btn-block">Voir le catalogue</a>
         </div>
     </article>
